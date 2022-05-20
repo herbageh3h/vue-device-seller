@@ -1,11 +1,11 @@
-/* eslint-disable prettier/prettier */
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './global.css';
 
 global.jQuery = require('jquery');
 const $ = global.jQuery;
@@ -13,9 +13,9 @@ window.$ = $;
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faHome);
+library.add(faHome, faUserCircle);
 
 createApp(App)
 .use(store)
