@@ -1,0 +1,8 @@
+const Colors = {
+  BLACK: 'black',
+  ORANGE: 'orange',
+  RED: 'red',
+  BLUE: 'blue',
+};
+
+export default Colors;

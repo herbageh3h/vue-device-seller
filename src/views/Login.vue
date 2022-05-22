@@ -54,11 +54,59 @@
 
 <script>
 import User from '../models/user';
-import vuex from 'vuex';
+// import vuex from 'vuex';
 import AuthenticationService from '../services/authentication.service';
+import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'login',
+  setup() {
+    const formData = ref(new User());
+    const loading = ref(false);
+    const submitted = ref(false);
+    const errorMessage = ref('');
+
+    const store = useStore();
+    const { currentUser } = store.getters;
+
+    const router = useRouter();
+
+    onMounted(() => {
+      if (currentUser?.username) {
+        router.push('/profile');
+      }
+    });
+
+    function handleLogin() {
+      if (!formData.value.username || !formData.value.password) {
+        return;
+      }
+
+      loading.value = true;
+      AuthenticationService.login(formData.value)
+        .then((response) => {
+          store.dispatch('updateUser', response.data);
+          router.push('/profile');
+        })
+        .catch((err) => {
+          console.log(err);
+          errorMessage.value = 'Unexpected error occurred.';
+        })
+        .then(() => (loading.value = false));
+    }
+
+    return {
+      formData,
+      loading,
+      submitted,
+      errorMessage,
+      currentUser,
+      handleLogin,
+    };
+  },
+  /*
   data() {
     return {
       formData: new User(),
@@ -95,5 +143,6 @@ export default {
         .then(() => (this.loading = false));
     },
   },
+  */
 };
 </script>
